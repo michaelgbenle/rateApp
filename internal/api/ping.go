@@ -5,7 +5,7 @@ import (
 	"github.com/michaelgbenle/rateApp/internal/helper"
 )
 
-//PingHandler is for testing the connections
+//PingHandler is to check if server is up
 func (u *HTTPHandler) PingHandler(c *gin.Context) {
 	data := "server up"
 

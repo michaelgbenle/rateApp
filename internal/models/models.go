@@ -1,22 +1,38 @@
 package models
 
-import "time"
+import (
+	"golang.org/x/crypto/bcrypt"
+	"time"
+)
 
 type User struct {
-	ID        int                `json:"id"`
-	Email     string             `json:"email"`
-	Password  string             `json:"password"`
+	Email     string             `json:"email" binding:"required"`
+	Password  string             `json:"password" binding:"required"`
 	Balance   map[string]float64 `json:"balance"`
 	CreatedAt time.Time          `json:"created_at"`
 	UpdatedAt time.Time          `json:"updated_at"`
 }
 
+func (user *User) HashPassword() error {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	user.Password = string(hashedPassword)
+	return nil
+}
+
 type Transaction struct {
-	ID        int                `json:"id"`
-	UserEmail string             `json:"user_email"`
-	Balance   map[string]float64 `json:"balance"`
-	CreatedAt time.Time          `json:"created_at"`
-	UpdatedAt time.Time          `json:"updated_at"`
+	UserEmail       string             `json:"user_email"`
+	Balance         map[string]float64 `json:"balance"`
+	TransactionType string             `json:"transaction_type"`
+	Success         bool               `json:"success"`
+	CreatedAt       time.Time          `json:"created_at"`
+	UpdatedAt       time.Time          `json:"updated_at"`
+}
+type LoginRequest struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 type Blacklist struct {

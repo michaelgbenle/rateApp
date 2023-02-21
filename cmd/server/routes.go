@@ -21,7 +21,7 @@ func SetupRouter(handler *api.HTTPHandler, repository ports.Repository) *gin.Eng
 		MaxAge:           12 * time.Hour,
 	}))
 
-	r := router.Group("/api/v1")
+	r := router.Group("/")
 	{
 		r.GET("/ping", handler.PingHandler)
 		r.POST("/register", handler.SignUpHandler)
