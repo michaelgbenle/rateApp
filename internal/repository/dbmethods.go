@@ -71,14 +71,15 @@ func (m *Mongo) AddTokenToBlacklist(email string, token string) error {
 func (m *Mongo) UpdateUserbalances(user *models.User, exchange *models.Exchange, value float64) (*models.Transaction, error) {
 
 	if exchange.Currency == ("NGN") {
+
 		filter := bson.D{{"email", user.Email}}
 		update1 := bson.D{
 			{"$set", bson.D{
-				{"balance", user.Balance[string(exchange.Currency)] - exchange.Amount}, {"updated_at", time.Now()}}},
+				{"balance:ngn", user.Balance.NGN - exchange.Amount}, {"updated_at", time.Now()}}},
 		}
 		update2 := bson.D{
 			{"$set", bson.D{
-				{"balance", user.Balance["USD"] + value}, {"updated_at", time.Now()}}},
+				{"usd", user.Balance.USD + value}, {"updated_at", time.Now()}}},
 		}
 		_, err := m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update1)
 		if err != nil {
@@ -104,19 +105,32 @@ func (m *Mongo) UpdateUserbalances(user *models.User, exchange *models.Exchange,
 
 	if exchange.Currency == ("USD") {
 		filter := bson.D{{"email", user.Email}}
-		update1 := bson.D{
+		//update1 := bson.D{
+		//	{"$set", bson.D{
+		//		{"usd", user.Balance.USD - exchange.Amount}, {"updated_at", time.Now()}}},
+		//}
+		update11 := bson.D{
 			{"$set", bson.D{
-				{"balance", user.Balance[string(exchange.Currency)] - exchange.Amount}, {"updated_at", time.Now()}}},
+				{"balance", bson.D{
+					{"usd", user.Balance.USD - exchange.Amount}, {"updated_at", time.Now()},
+				}}}},
 		}
-		update2 := bson.D{
+		//update2 := bson.D{
+		//	{"$set", bson.D{
+		//		{"ngn", user.Balance.NGN + value}, {"updated_at", time.Now()}}},
+		//}
+		update22 := bson.D{
 			{"$set", bson.D{
-				{"balance", user.Balance["NGN"] + value}, {"updated_at", time.Now()}}},
+				{"balance", bson.D{
+					{"ngn", user.Balance.NGN + value}, {"updated_at", time.Now()},
+				}}}},
 		}
-		_, err := m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update1)
+
+		_, err := m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update11)
 		if err != nil {
 			return &models.Transaction{}, err
 		}
-		_, err = m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update2)
+		_, err = m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update22)
 		if err != nil {
 			return &models.Transaction{}, err
 		}

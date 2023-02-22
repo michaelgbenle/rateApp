@@ -22,9 +22,9 @@ func AuthorizeUser(findUserByEmail func(string) (*models.User, error), tokenInBl
 			return
 		}
 
-		if tokenInBlacklist(&accessToken.Raw) || IsTokenExpired(accessClaims) {
-			c.AbortWithStatusJSON(http.StatusBadRequest, "unauthorized route ")
-		}
+		//if tokenInBlacklist(&accessToken.Raw) || IsTokenExpired(accessClaims) {
+		//	c.AbortWithStatusJSON(http.StatusBadRequest, "unauthorized route ")
+		//}
 
 		if email, ok := accessClaims["user_email"].(string); ok {
 			if user, errors = findUserByEmail(email); errors != nil {

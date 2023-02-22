@@ -6,11 +6,15 @@ import (
 )
 
 type User struct {
-	Email     string             `json:"email" binding:"required"`
-	Password  string             `json:"password" binding:"required"`
-	Balance   map[string]float64 `json:"balance"`
-	CreatedAt time.Time          `json:"created_at"`
-	UpdatedAt time.Time          `json:"updated_at"`
+	Email     string    `json:"email" binding:"required"`
+	Password  string    `json:"password" binding:"required"`
+	Balance   Balance   `json:"balance"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+type Balance struct {
+	NGN float64 `json:"NGN"`
+	USD float64 `json:"USD"`
 }
 
 func (user *User) HashPassword() error {
@@ -23,11 +27,11 @@ func (user *User) HashPassword() error {
 }
 
 type Transaction struct {
-	UserEmail       string             `json:"user_email"`
-	Balance         map[string]float64 `json:"balance"`
-	TransactionType string             `json:"transaction_type"`
-	Success         bool               `json:"success"`
-	CreatedAt       time.Time          `json:"created_at"`
+	UserEmail       string    `json:"user_email"`
+	Balance         Balance   `json:"balance"`
+	TransactionType string    `json:"transaction_type"`
+	Success         bool      `json:"success"`
+	CreatedAt       time.Time `json:"created_at"`
 }
 type LoginRequest struct {
 	Email    string `json:"email" binding:"required"`

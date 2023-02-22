@@ -33,7 +33,7 @@ func (u *HTTPHandler) SignUpHandler(c *gin.Context) {
 		return
 	}
 	//credit user with 100 USD
-	user.Balance = map[string]float64{"USD": 100, "NGN": 0}
+	user.Balance.USD = 100
 	user.CreatedAt = time.Now()
 	user.UpdatedAt = time.Now()
 
