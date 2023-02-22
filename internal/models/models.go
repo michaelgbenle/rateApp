@@ -28,7 +28,6 @@ type Transaction struct {
 	TransactionType string             `json:"transaction_type"`
 	Success         bool               `json:"success"`
 	CreatedAt       time.Time          `json:"created_at"`
-	UpdatedAt       time.Time          `json:"updated_at"`
 }
 type LoginRequest struct {
 	Email    string `json:"email" binding:"required"`

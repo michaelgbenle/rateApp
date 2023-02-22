@@ -1,8 +1,13 @@
 package helper
 
 import (
+	"context"
+	"encoding/json"
+	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/michaelgbenle/rateApp/internal/models"
 	"net/http"
+	"os"
 	"time"
 	"unicode"
 )
@@ -50,4 +55,43 @@ func IsValidPassword(pass string) bool {
 	}
 
 	return true
+}
+
+func GetRates() (*models.Rates, error) {
+	client := &http.Client{}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, os.Getenv("BASE_URL"), nil)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, errors.New("error: unable to get rates")
+	}
+
+	var rates models.Rates
+	err = json.NewDecoder(resp.Body).Decode(&rates)
+	if err != nil {
+		return nil, err
+	}
+	return &rates, nil
+}
+
+func InsufficientBalance(balance, amount float64) bool {
+	if balance < amount {
+		return true
+	}
+	return false
+}
+func ConvertUsdToNgn(amount float64, rate float64) float64 {
+	return amount * rate
+}
+func ConvertNgnToUsd(amount float64, rate float64) float64 {
+	return amount / rate
 }

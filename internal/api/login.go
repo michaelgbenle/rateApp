@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/michaelgbenle/rateApp/internal/helper"
@@ -24,7 +23,6 @@ func (u *HTTPHandler) LoginHandler(c *gin.Context) {
 	//check if email exists
 	user, userErr := u.Repository.FindUserByEmail(loginRequest.Email)
 	if userErr != nil {
-		fmt.Println(userErr)
 		helper.Response(c, "bad request", http.StatusBadRequest, nil, []string{"email does not exists"})
 		return
 	}
