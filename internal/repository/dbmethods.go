@@ -47,17 +47,20 @@ func (m *Mongo) AddTransaction(transaction *models.Transaction) error {
 
 func (m *Mongo) GetTransactions(user *models.User) (*[]models.Transaction, error) {
 
-	filter := bson.D{{"email", user.Email}}
+	filter := bson.D{{"useremail", user.Email}}
 
 	cur, err := m.DB.Database("payourse").Collection("transactions").Find(context.Background(), filter)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return &[]models.Transaction{}, err
 	}
+
 	var transactions []models.Transaction
-	if err = cur.All(context.Background(), &transactions); err != nil {
-		return nil, err
+	if err = cur.All(context.TODO(), &transactions); err != nil {
+		return &[]models.Transaction{}, err
 	}
-	return &transactions, err
+
+	return &transactions, nil
 }
 func (m *Mongo) AddTokenToBlacklist(email string, token string) error {
 	res, err := m.DB.Database("token").Collection("blacklist").InsertOne(context.Background(), bson.M{"email": email, "token": token})
@@ -73,25 +76,25 @@ func (m *Mongo) UpdateUserbalances(user *models.User, exchange *models.Exchange,
 	if exchange.Currency == ("NGN") {
 
 		filter := bson.D{{"email", user.Email}}
-		update1 := bson.D{
+		update := bson.D{
 			{"$set", bson.D{
-				{"balance:ngn", user.Balance.NGN - exchange.Amount}, {"updated_at", time.Now()}}},
+				{"balance", bson.D{
+					{"ngn", user.Balance.NGN - exchange.Amount}, {"usd", user.Balance.USD + value}, {"updated_at", time.Now()},
+				}}}},
 		}
-		update2 := bson.D{
-			{"$set", bson.D{
-				{"usd", user.Balance.USD + value}, {"updated_at", time.Now()}}},
-		}
-		_, err := m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update1)
+
+		_, err := m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update)
 		if err != nil {
 			return &models.Transaction{}, err
 		}
-		_, err = m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update2)
+
+		updatedUser, err := m.FindUserByEmail(user.Email)
 		if err != nil {
-			return &models.Transaction{}, err
+			return nil, err
 		}
 		transaction := &models.Transaction{
-			UserEmail:       user.Email,
-			Balance:         user.Balance,
+			UserEmail:       updatedUser.Email,
+			Balance:         updatedUser.Balance,
 			TransactionType: "NGN to USD",
 			Success:         true,
 			CreatedAt:       time.Now(),
@@ -105,38 +108,25 @@ func (m *Mongo) UpdateUserbalances(user *models.User, exchange *models.Exchange,
 
 	if exchange.Currency == ("USD") {
 		filter := bson.D{{"email", user.Email}}
-		//update1 := bson.D{
-		//	{"$set", bson.D{
-		//		{"usd", user.Balance.USD - exchange.Amount}, {"updated_at", time.Now()}}},
-		//}
-		update11 := bson.D{
+
+		update := bson.D{
 			{"$set", bson.D{
 				{"balance", bson.D{
-					{"usd", user.Balance.USD - exchange.Amount}, {"updated_at", time.Now()},
+					{"ngn", user.Balance.NGN + value}, {"usd", user.Balance.USD - exchange.Amount}, {"updated_at", time.Now()},
 				}}}},
 		}
-		//update2 := bson.D{
-		//	{"$set", bson.D{
-		//		{"ngn", user.Balance.NGN + value}, {"updated_at", time.Now()}}},
-		//}
-		update22 := bson.D{
-			{"$set", bson.D{
-				{"balance", bson.D{
-					{"ngn", user.Balance.NGN + value}, {"updated_at", time.Now()},
-				}}}},
+		_, err := m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update)
+		if err != nil {
+			return &models.Transaction{}, err
 		}
 
-		_, err := m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update11)
+		updatedUser, err := m.FindUserByEmail(user.Email)
 		if err != nil {
-			return &models.Transaction{}, err
-		}
-		_, err = m.DB.Database("payourse").Collection("users").UpdateOne(context.Background(), filter, update22)
-		if err != nil {
-			return &models.Transaction{}, err
+			return nil, err
 		}
 		transaction := &models.Transaction{
-			UserEmail:       user.Email,
-			Balance:         user.Balance,
+			UserEmail:       updatedUser.Email,
+			Balance:         updatedUser.Balance,
 			TransactionType: "USD to NGN",
 			Success:         true,
 			CreatedAt:       time.Now(),

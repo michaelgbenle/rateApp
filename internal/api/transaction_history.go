@@ -19,7 +19,6 @@ func (u *HTTPHandler) TransactionsHandler(c *gin.Context) {
 		helper.Response(c, "error", 500, nil, []string{"internal server error"})
 		return
 	}
-
 	// successful
 	helper.Response(c, "transaction history and balances", 200, transactionHistory, nil)
 }
