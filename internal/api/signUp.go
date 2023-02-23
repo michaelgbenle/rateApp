@@ -22,7 +22,7 @@ func (u *HTTPHandler) SignUpHandler(c *gin.Context) {
 
 	//check if password is valid
 	if !helper.IsValidPassword(user.Password) {
-		helper.Response(c, "error", 400, nil, []string{"upper case, lower case, number and special character required for password"})
+		helper.Response(c, "error", 400, nil, []string{"minimum of 8 characters containing upper case, lower case, number and special character required"})
 	}
 
 	//hash password
