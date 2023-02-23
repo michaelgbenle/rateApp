@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/michaelgbenle/rateApp/internal/helper"
 	"github.com/michaelgbenle/rateApp/internal/models"
-	"time"
 )
 
 func (u *HTTPHandler) SignUpHandler(c *gin.Context) {
@@ -32,10 +31,6 @@ func (u *HTTPHandler) SignUpHandler(c *gin.Context) {
 		helper.Response(c, "error", 500, nil, []string{"internal server error"})
 		return
 	}
-	//credit user with 100 USD
-	user.Balance.USD = 100
-	user.CreatedAt = time.Now()
-	user.UpdatedAt = time.Now()
 
 	//save user to database
 	err = u.Repository.CreateUser(user)

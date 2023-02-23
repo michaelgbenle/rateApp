@@ -22,6 +22,12 @@ func (m *Mongo) FindUserByEmail(email string) (*models.User, error) {
 	return &user, err
 }
 func (m *Mongo) CreateUser(user *models.User) error {
+	//credit user with 100 USD
+	user.Balance.USD = 100
+	user.Balance.NGN = 0
+	user.CreatedAt = time.Now()
+	user.UpdatedAt = time.Now()
+
 	res, err := m.DB.Database("payourse").Collection("users").InsertOne(context.Background(), user)
 	if err != nil {
 		return err
