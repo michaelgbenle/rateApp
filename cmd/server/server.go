@@ -66,7 +66,7 @@ func InitDBParams() Params {
 	if ginMode != "release" {
 		errEnv := godotenv.Load()
 		if errEnv != nil {
-			log.Fatal("Error loading .env file")
+			log.Println("Error loading .env file")
 		}
 	}
 
