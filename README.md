@@ -13,6 +13,7 @@ This a simple Backend application that allow users to exchange USD for Naira and
 ### Endpoints
 - [x] /ping - This endpoint is used to check if the application is running [GET]
 - [x] /register - This endpoint is used to create a new user account [POST]
+- 
   `Sample Request Body`
   ```json
    {
