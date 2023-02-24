@@ -1,5 +1,5 @@
 # Rates App
-This a simple Backend application that allow users to exchange USD for Naira and vice versa at the current market rates.
+This a simple Backend service that allow users to exchange USD for Naira and vice versa at the current market rates.
 
 #### Rate EndPoint : https://staging-biz.coinprofile.co/v3/currency/rate
 
