@@ -1,5 +1,5 @@
 # Rates App
-This a simple Backend service that allow users to exchange USD for Naira and vice versa at the current market rates.
+This a simple Backend Webservice that allow users to exchange USD for Naira and vice versa at the current market rates.
 
 #### Rate EndPoint : https://staging-biz.coinprofile.co/v3/currency/rate
 
@@ -54,7 +54,7 @@ This a simple Backend service that allow users to exchange USD for Naira and vic
 
 ### Environment Variables
 1. `PORT` - This is the port the application will run on
-2. `MONGO_URL` - This is the url of the mongo database
+2. `DATABASE_URL` - This is the url of the mongo database
 3. `BASE_URL` - This is the rate endpoint url above
 4. `JWT_SECRET` - This is the secret used to generate jwt token
 
