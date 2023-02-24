@@ -13,41 +13,43 @@ This a simple Backend application that allow users to exchange USD for Naira and
 ### Endpoints
 - [x] /ping - This endpoint is used to check if the application is running [GET]
 - [x] /register - This endpoint is used to create a new user account [POST]
-   ```json
-  Sample Request Body
+  `Sample Request Body`
+  ```json
    {
        "email": "test@example.com",
         "password": "passworD5$"
   }
 - [x] /login - This endpoint is used to log in a user [POST]
-   ```json
-    Sample Request Body
+
+    `Sample Request Body`
+  ```json
      {
          "email": "test@example.com",
           "password": "passworD5$"
     }
 
 - [x] /user/ngnusd - This endpoint is used to convert USD to Naira [PATCH]
-    ```json
-  This route is a protected route, you need to be logged in to access it
-   `
-    Sample Request Body
+- 
+  `This route is a protected route, you need to be logged in to access it`  
+  `Sample Request Body`
+- ```json
      {
          "currency": "USD",
           "amount": "50"
     }
 
 - [x] /user/usdngn - This endpoint is used to convert Naira to USD [PATCH]
-  ```json
-    This route is a protected route, you need to be logged in to access it
-    Sample Request Body
+
+`This route is a protected route, you need to be logged in to access it`  
+`Sample Request Body`
+- ```json
      {
          "currency": "NGN",
           "amount": "50000"
     }
 
 - [x] /user/transactions_history - This endpoint is used to get the user balances and transaction history [GET] .
-it is a protected route, you need to be logged in to access it
+- `This route is a protected route, you need to be logged in to access it`
 
 ### Environment Variables
 1. `PORT` - This is the port the application will run on
