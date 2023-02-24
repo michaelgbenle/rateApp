@@ -12,3 +12,4 @@ This a simple Backend application that allow users to exchange USD for Naira and
 ### Application Requirement Stack Used
 1. Mongo database as the core database
 2. Gin-Gonic, main golang web framework used
+
