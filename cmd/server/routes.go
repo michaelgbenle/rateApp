@@ -32,8 +32,8 @@ func SetupRouter(handler *api.HTTPHandler, repository ports.Repository) *gin.Eng
 	authorizeUser := r.Group("/user")
 	authorizeUser.Use(middleware.AuthorizeUser(repository.FindUserByEmail, repository.TokenInBlacklist))
 	{
-		authorizeUser.PATCH("usdngn", handler.UsdNgnHandler)
-		authorizeUser.PATCH("ngnusd", handler.NgnUsdHandler)
+		authorizeUser.PATCH("/usdngn", handler.UsdNgnHandler)
+		authorizeUser.PATCH("/ngnusd", handler.NgnUsdHandler)
 		authorizeUser.GET("transactions_history", handler.TransactionsHandler)
 	}
 

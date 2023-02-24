@@ -6,6 +6,7 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/michaelgbenle/rateApp/internal/models"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"os"
 	"time"
@@ -94,4 +95,12 @@ func ConvertUsdToNgn(amount float64, rate float64) float64 {
 }
 func ConvertNgnToUsd(amount float64, rate float64) float64 {
 	return amount / rate
+}
+
+func HashPassword(pass string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(pass), bcrypt.DefaultCost)
+	if err != nil {
+		return "", err
+	}
+	return string(hashedPassword), nil
 }

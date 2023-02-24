@@ -25,13 +25,6 @@ func (u *HTTPHandler) SignUpHandler(c *gin.Context) {
 		helper.Response(c, "error", 400, nil, []string{"minimum of 8 characters containing upper case, lower case, number and special character required"})
 	}
 
-	//hash password
-	err = user.HashPassword()
-	if err != nil {
-		helper.Response(c, "error", 500, nil, []string{"internal server error"})
-		return
-	}
-
 	//save user to database
 	err = u.Repository.CreateUser(user)
 	if err != nil {

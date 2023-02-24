@@ -7,4 +7,4 @@ mock:
 
 tests:
 	mockgen -source=internal/ports/repository.go -destination=internal/repository/mocks/db_mock.go -package=mocks
-	go test ./... -v
+	go test ./internal/api/test/... -v

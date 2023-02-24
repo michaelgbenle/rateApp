@@ -54,8 +54,9 @@ func Run(db *mongo.Client, port string) {
 
 //Params is a data model of the data in our environment variable
 type Params struct {
-	Port  string
-	DbUrl string
+	Port   string
+	DbUrl  string
+	Secret string
 }
 
 //InitDBParams gets environment variables needed to run the app
@@ -71,9 +72,11 @@ func InitDBParams() Params {
 
 	port := os.Getenv("PORT")
 	dbURL := os.Getenv("DATABASE_URL")
+	secret := os.Getenv("JWT_SECRET")
 
 	return Params{
-		Port:  port,
-		DbUrl: dbURL,
+		Port:   port,
+		DbUrl:  dbURL,
+		Secret: secret,
 	}
 }

@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
+	"github.com/michaelgbenle/rateApp/internal/helper"
 	"github.com/michaelgbenle/rateApp/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,7 +23,12 @@ func (m *Mongo) FindUserByEmail(email string) (*models.User, error) {
 	return &user, err
 }
 func (m *Mongo) CreateUser(user *models.User) error {
-	//credit user with 100 USD
+	//hash password
+	hashedPassword, err := helper.HashPassword(user.Password)
+	if err != nil {
+		return err
+	}
+	user.Password = hashedPassword
 	user.Balance.USD = 100
 	user.Balance.NGN = 0
 	user.CreatedAt = time.Now()
@@ -68,6 +74,7 @@ func (m *Mongo) GetTransactions(user *models.User) (*[]models.Transaction, error
 
 	return &transactions, nil
 }
+
 func (m *Mongo) AddTokenToBlacklist(email string, token string) error {
 	res, err := m.DB.Database("token").Collection("blacklist").InsertOne(context.Background(), bson.M{"email": email, "token": token})
 	if err != nil {

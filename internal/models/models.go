@@ -1,7 +1,6 @@
 package models
 
 import (
-	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
@@ -15,15 +14,6 @@ type User struct {
 type Balance struct {
 	NGN float64 `json:"NGN"`
 	USD float64 `json:"USD"`
-}
-
-func (user *User) HashPassword() error {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return err
-	}
-	user.Password = string(hashedPassword)
-	return nil
 }
 
 type Transaction struct {

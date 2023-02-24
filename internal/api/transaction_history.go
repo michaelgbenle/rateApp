@@ -7,6 +7,7 @@ import (
 )
 
 func (u *HTTPHandler) TransactionsHandler(c *gin.Context) {
+
 	user, err := u.GetUserFromContext(c)
 	if err != nil {
 		helper.Response(c, "Unauthorized", http.StatusUnauthorized, nil, []string{"unauthorized"})

@@ -48,20 +48,6 @@ func (mr *MockRepositoryMockRecorder) AddTokenToBlacklist(email, token interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddTokenToBlacklist", reflect.TypeOf((*MockRepository)(nil).AddTokenToBlacklist), email, token)
 }
 
-// AddTransaction mocks base method.
-func (m *MockRepository) AddTransaction(transaction *models.Transaction) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddTransaction", transaction)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// AddTransaction indicates an expected call of AddTransaction.
-func (mr *MockRepositoryMockRecorder) AddTransaction(transaction interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddTransaction", reflect.TypeOf((*MockRepository)(nil).AddTransaction), transaction)
-}
-
 // CreateUser mocks base method.
 func (m *MockRepository) CreateUser(user *models.User) error {
 	m.ctrl.T.Helper()

@@ -28,3 +28,12 @@ func (u *HTTPHandler) GetUserFromContext(c *gin.Context) (*models.User, error) {
 	}
 	return user, nil
 }
+
+func (u *HTTPHandler) GetTokenFromContext(c *gin.Context) (string, error) {
+	tokenI, exists := c.Get("access_token")
+	if !exists {
+		return "", fmt.Errorf("error getting access token")
+	}
+	tokenstr := tokenI.(string)
+	return tokenstr, nil
+}
