@@ -12,3 +12,11 @@ func (u *HTTPHandler) PingHandler(c *gin.Context) {
 	// healthcheck
 	helper.Response(c, "pong", 200, data, nil)
 }
+
+//WelcomeHandler to welcome users
+func (u *HTTPHandler) WelcomeHandler(c *gin.Context) {
+	data := "Welcome to Exchange Rates WebApp Base Url by Gbenle Michael"
+
+	// response
+	helper.Response(c, "visit /register to sign up", 200, data, nil)
+}
