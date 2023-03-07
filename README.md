@@ -60,7 +60,7 @@ This a simple Backend Webservice that allow users to exchange USD for Naira and 
 
 ### How to run and test the application
 1. Clone the repository
-2. Run `go mod download` to download all the dependencies
+2. Run `go mod tidy` to download all the dependencies
 3. Set the environment variables
 4. Run `make run` to start the application
 5. Run `make tests` to run the test cases
