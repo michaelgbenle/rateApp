@@ -36,7 +36,7 @@ This a simple Backend Webservice that allow users to exchange USD for Naira and 
 - ```json
      {
          "currency": "USD",
-          "amount": "50"
+          "amount": 50
     }
 
 - [x] /user/usdngn - This endpoint is used to convert Naira to USD [PATCH]
@@ -46,7 +46,7 @@ This a simple Backend Webservice that allow users to exchange USD for Naira and 
 - ```json
      {
          "currency": "NGN",
-          "amount": "50000"
+          "amount": 50000
     }
 
 - [x] /user/transactions_history - This endpoint is used to get the user balances and transaction history [GET] .
